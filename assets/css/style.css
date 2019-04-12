@@ -1,0 +1,9 @@
+div.widget-log-item {
+	border: solid 1px #AAAAAA;
+	margin: 5px;
+	padding: 5px;
+}
+
+div.widget-log-item.bkg-color {
+	background-color: #EEEEEE;
+}
