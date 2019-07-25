@@ -24,6 +24,7 @@ class WP_Plugin_Confirm {
 		add_action( 'admin_enqueue_scripts', array( $this, 'load_css_js' ) );
 		add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widgets' ) );
 		add_action( 'init', array( $this, 'add_log' ) );
+		add_action( 'init', [ $this, 'add_access_restrictions' ] );
 	}
 
 	public static function get_instance() {
@@ -84,17 +85,38 @@ class WP_Plugin_Confirm {
 	 * Add plugin enable / disable log to CSV file.
 	 */
 	public function add_log() {
+		global $pagenow;
+
+		if ( $pagenow !== 'plugins.php' ) {
+			return;
+		}
+
 		$action = ( isset ( $_GET['action'] ) ) ? $_GET['action'] : '';
 		$plugin = ( isset ( $_GET['plugin'] ) ) ? $_GET['plugin'] : '';
 		if ( '' === $action || '' === $plugin ) {
 			return;
 		}
+		if ( ( strpos( $action, '(' ) && strpos( $action, ')' ) )
+		     || ( strpos( $plugin, '(' ) && strpos( $plugin, ')' ) ) ) {
+			return;
+		}
 		$this->mkdir( dirname( __FILE__ ) . '/log/', 0700 );
 		$now_datetime = date_i18n( 'Y-m-d H:i:s' );
-		$data         = array( $now_datetime, $action, $plugin );
+		$data         = array( $now_datetime, esc_html( $action ), esc_html( $plugin ) );
 		$fp           = fopen( $this->get_log_file_path(), 'a' );
 		fputcsv( $fp, $data );
 		fclose( $fp );
+	}
+
+	/**
+	 * Restrict access to log files.
+	 */
+	public function add_access_restrictions() {
+		$url = $_SERVER["REQUEST_URI"];
+		if ( strpos( $url, 'wp-plugin-confirm/logs' ) ) {
+			wp_redirect( admin_url() );
+			exit;
+		}
 	}
 
 	/**
