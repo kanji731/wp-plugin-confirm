@@ -3,7 +3,7 @@
 Plugin Name: WP Plugin Confirm
 Plugin URI:
 Description: Displays a confirmation dialog when plug-ins are enabled / disabled. Display plug enable / disable logs on the dashboard.
-Version: 1.0.0
+Version: 1.0.1
 Author: PRESSMAN
 Author URI: https://www.pressman.ne.jp/
 License: GPLv2 or later
@@ -89,10 +89,9 @@ class WP_Plugin_Confirm {
 		if ( '' === $action || '' === $plugin ) {
 			return;
 		}
-		$plugin = explode( '/', $plugin );
 		$this->mkdir( dirname( __FILE__ ) . '/log/', 0700 );
 		$now_datetime = date_i18n( 'Y-m-d H:i:s' );
-		$data         = array( $now_datetime, $action, $plugin[1] );
+		$data         = array( $now_datetime, $action, $plugin );
 		$fp           = fopen( $this->get_log_file_path(), 'a' );
 		fputcsv( $fp, $data );
 		fclose( $fp );

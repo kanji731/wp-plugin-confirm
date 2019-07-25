@@ -1,9 +1,9 @@
 === WP Plugin Confirm ===
 Contributors: pressmaninc, kanjinagao, hiroshisekiguchi, kazunao
 Requires at least: 4.9
-Tested up to: 5.1
+Tested up to: 5.2
 Requires PHP: 5.6
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: jquery, css, dashboard
@@ -22,5 +22,7 @@ Displays a confirmation dialog when plugin are enabled / stop. Display plugin en
 2. Activate the plugin through the Plugins menu in WordPress.
 
 == Changelog ==
+= 1.0.1 =
+- Changed the plug-in name and file path, which is recorded in the log.
 = 1.0.0 =
 - First commit.
