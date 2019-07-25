@@ -114,7 +114,7 @@ class WP_Plugin_Confirm {
 	public function add_access_restrictions() {
 		$url = $_SERVER["REQUEST_URI"];
 		if ( strpos( $url, 'wp-plugin-confirm/logs' ) ) {
-			wp_redirect( admin_url() );
+			wp_redirect( home_url() );
 			exit;
 		}
 	}
